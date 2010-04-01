@@ -50,6 +50,20 @@
 
   <!-- ===================================================================== -->
 
+  <distributionManagement>
+    <repository>
+      <id>trancecode.org</id>
+      <url>dav:http://www.trancecode.org/maven/repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>trancecode.org</id>
+      <url>dav:http://www.trancecode.org/maven/repository</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <!-- ===================================================================== -->
+
   <dependencyManagement>
     <dependencies>
 
