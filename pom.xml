@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.trancecode.logging</groupId>
+  <artifactId>tc-logging</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>${project.artifactId}</name>
+
+  <!-- ===================================================================== -->
+
+  <inceptionYear>2010</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>Apache 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <!-- ===================================================================== -->
+
+  <developers>
+
+    <developer>
+      <name>Herve Quiroz</name>
+      <email>herve.quiroz@trancecode.org</email>
+      <organization>TranceCode</organization>
+      <organizationUrl>http://www.trancecode.org</organizationUrl>
+      <timezone>+1</timezone>
+      <roles>
+        <role>Project Manager</role>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+
+  </developers>
+
+  <!-- ===================================================================== -->
+
+  <modules>
+    <module>tc-logging-core</module>
+    <module>tc-logging-log4j</module>
+    <module>tc-logging-simple</module>
+  </modules>
+
+  <!-- ===================================================================== -->
+
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>org.trancecode.logging</groupId>
+        <artifactId>tc-logging-core</artifactId>
+        <version>0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.trancecode.logging</groupId>
+        <artifactId>tc-logging-log4j</artifactId>
+        <version>0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.1</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>5.10</version>
+        <scope>test</scope>
+        <classifier>jdk15</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.collections</groupId>
+        <artifactId>google-collections</artifactId>
+        <version>1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.14</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- ===================================================================== -->
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <showWarnings>true</showWarnings>
+            <showDeprecation>true</showDeprecation>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>javancss-maven-plugin</artifactId>
+          <version>2.0-beta-2</version>
+          <dependencies>
+            <dependency>
+              <groupId>javancss</groupId>
+              <artifactId>javancss</artifactId>
+              <version>29.50</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>2.4</version>
+          <configuration>
+            <targetJdk>1.6</targetJdk>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>1.2</version>
+          <configuration>
+            <xmlOutput>true</xmlOutput>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <parallel>methods</parallel>
+            <threadCount>2</threadCount>
+            <forkMode>once</forkMode>
+            <reportFormat>brief</reportFormat>
+            <testFailureIgnore>true</testFailureIgnore>
+          </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <!-- ===================================================================== -->
+
+  <reporting>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <detectLinks>true</detectLinks>
+          <links>
+            <link>http://java.sun.com/javase/6/docs/api/</link>
+          </links>
+          <source>1.6</source>
+          <failOnError>false</failOnError>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </reporting>
+
+</project>
