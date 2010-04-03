@@ -34,10 +34,10 @@ public final class Loggers
 
     public static Object formatMessage(final String message, final Object... args)
     {
-        return formatMessage(message, 0, args);
+        return formatMessageForArgument(message, 0, args);
     }
 
-    private static Object formatMessage(final String message, final int current, final Object... args)
+    private static Object formatMessageForArgument(final String message, final int current, final Object... args)
     {
         if (!message.matches(".*\\{.*\\}.*"))
         {
@@ -52,7 +52,7 @@ public final class Loggers
         final StringBuilder builder = new StringBuilder();
         builder.append(beforeTag);
         builder.append(formatArgument(args[current], tag));
-        builder.append(formatMessage(afterTag, current + 1, args));
+        builder.append(formatMessageForArgument(afterTag, current + 1, args));
 
         return builder;
     }
