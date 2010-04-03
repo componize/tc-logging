@@ -104,8 +104,6 @@ public final class Loggers
             return writer;
         }
 
-        // TODO Exception.getMessage()
-        // TODO Exception.getStackTrace()
         // TODO generic method invocation
 
         throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method);
