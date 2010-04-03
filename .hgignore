@@ -1,5 +1,5 @@
 syntax: regexp
-^test-output$
-syntax: regexp
 ^target$
 ^.*/target$
+^test-output$
+^.*/test-output$
