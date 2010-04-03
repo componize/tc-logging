@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * @author Herve Quiroz
@@ -102,6 +103,20 @@ public final class Loggers
             }
 
             return writer;
+        }
+
+        if (argument instanceof Collection<?>)
+        {
+            final Collection<?> collection = (Collection<?>) argument;
+            if (method.equals("size"))
+            {
+                return collection.size();
+            }
+
+            if (method.equals("isEmpty"))
+            {
+                return collection.isEmpty();
+            }
         }
 
         // TODO generic method invocation
