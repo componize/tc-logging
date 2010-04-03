@@ -119,8 +119,6 @@ public final class Loggers
             }
         }
 
-        // TODO generic method invocation
-
         throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method);
     }
 }
