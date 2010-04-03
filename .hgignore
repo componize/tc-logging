@@ -2,3 +2,4 @@ syntax: regexp
 ^test-output$
 syntax: regexp
 ^target$
+^.*/target$
