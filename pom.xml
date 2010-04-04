@@ -15,12 +15,33 @@
 
   <inceptionYear>2010</inceptionYear>
 
+  <organization>
+    <name>TranceCode</name>
+    <url>http://www.trancecode.org</url>
+  </organization>
+
   <licenses>
     <license>
       <name>Apache 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
+
+  <issueManagement>
+    <system>Google Code</system>
+    <url>http://code.google.com/p/tc-logging/issues/list</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Hudson</system>
+    <url>http://www.trancecode.org/hudson/job/tc-logging</url>
+  </ciManagement>
+
+  <scm>
+    <connection>scm:hg:https://tc-logging.googlecode.com/hg/</connection>
+    <developerConnection>scm:hg:https://tc-logging.googlecode.com/hg/</developerConnection>
+    <url>http://code.google.com/p/tc-logging/source/browse/</url>
+  </scm>
 
   <!-- ===================================================================== -->
 
@@ -50,17 +71,36 @@
 
   <!-- ===================================================================== -->
 
+  <repositories>
+
+    <repository>
+      <id>trancecode.org</id>
+      <url>http://maven.trancecode.org/repository/main/</url>
+    </repository>
+
+  </repositories>
+
+  <!-- ===================================================================== -->
+
   <distributionManagement>
     <repository>
       <id>trancecode.org</id>
-      <url>dav:http://www.trancecode.org/maven/repository</url>
+      <url>scpexe://maven@maven.trancecode.org/home/maven/repository</url>
     </repository>
     <snapshotRepository>
       <id>trancecode.org</id>
-      <url>dav:http://www.trancecode.org/maven/repository</url>
+      <url>scpexe://maven@maven.trancecode.org/home/maven/repository</url>
       <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>
+
+  <!-- ===================================================================== -->
+
+  <properties>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+  </properties>
 
   <!-- ===================================================================== -->
 
@@ -112,6 +152,16 @@
   <!-- ===================================================================== -->
 
   <build>
+
+    <extensions>
+
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>1.0-beta-6</version>
+      </extension>
+
+    </extensions>
 
     <pluginManagement>
       <plugins>
