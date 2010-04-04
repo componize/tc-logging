@@ -34,27 +34,40 @@ public final class Loggers
 
     public static Object formatMessage(final String message, final Object... args)
     {
-        return formatMessageForArgument(message, 0, args);
-    }
-
-    private static Object formatMessageForArgument(final String message, final int current, final Object... args)
-    {
-        if (!message.matches(".*\\{.*\\}.*"))
+        if (message.isEmpty())
         {
             return message;
         }
 
-        final String[] parts1 = message.split("\\{", 2);
-        final String beforeTag = parts1[0];
-        final String[] parts2 = parts1[1].split("\\}", 2);
-        final String tag = parts2[0];
-        final String afterTag = parts2[1];
-        final StringBuilder builder = new StringBuilder();
-        builder.append(beforeTag);
-        builder.append(formatArgument(args[current], tag));
-        builder.append(formatMessageForArgument(afterTag, current + 1, args));
+        final StringBuilder formattedMessage = new StringBuilder();
+        int alreadyProcessed = 0;
+        int argumentRank = 0;
+        for (int i = 0; i < message.length(); i++)
+        {
+            final int open = message.indexOf('{', alreadyProcessed);
+            if (open < 0)
+            {
+                formattedMessage.append(message.substring(alreadyProcessed));
+                return formattedMessage;
+            }
 
-        return builder;
+            if (open > 0 && message.charAt(open - 1) == '\\')
+            {
+                formattedMessage.append(message.substring(alreadyProcessed, open - 1)).append('{');
+                alreadyProcessed = open + 1;
+                continue;
+            }
+
+            final int close = message.indexOf('}', open);
+            Preconditions.checkArgument(close >= 0, "message is missing closing brace: %s", message);
+            final String method = message.substring(open + 1, close);
+            formattedMessage.append(message.substring(alreadyProcessed, open));
+            formattedMessage.append(formatArgument(args[argumentRank], method));
+            argumentRank++;
+            alreadyProcessed = close + 1;
+        }
+
+        return formattedMessage;
     }
 
     private static final Class<?> OBJECT_ARRAY_CLASS = new Object[0].getClass();
