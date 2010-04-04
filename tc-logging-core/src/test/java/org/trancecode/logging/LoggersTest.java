@@ -16,6 +16,9 @@
 package org.trancecode.logging;
 
 import com.google.common.collect.ImmutableList;
+
+import java.util.Collection;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -27,11 +30,14 @@ import org.testng.annotations.Test;
 @Test
 public final class LoggersTest
 {
-    private static final int MANY_TIMES = 100000;
+    private static final int MANY_TIMES = 1000000;
 
     @Test
     public void formatMessage()
     {
+        Assert.assertEquals(Loggers.formatMessage("").toString(), "");
+        Assert.assertEquals(Loggers.formatMessage("a b c").toString(), "a b c");
+        Assert.assertEquals(Loggers.formatMessage("a b c", 1, 2, 3).toString(), "a b c");
         Assert.assertEquals(Loggers.formatMessage("a {} c", "b").toString(), "a b c");
         Assert.assertEquals(Loggers.formatMessage("{} b c", "a").toString(), "a b c");
         Assert.assertEquals(Loggers.formatMessage("a {} c {}", "b", 'd').toString(), "a b c d");
@@ -40,6 +46,9 @@ public final class LoggersTest
         Assert.assertEquals(Loggers.formatMessage("list {}", ImmutableList.of("a", "b")).toString(), "list [a, b]");
         Assert.assertEquals(Loggers.formatMessage("arrays {} {}", new String[] { "a", "b" }, new String[] { "c", "d" })
                 .toString(), "arrays [a, b] [c, d]");
+
+        // Escape characters
+        Assert.assertEquals(Loggers.formatMessage("a \\{} c", "b").toString(), "a {} c");
     }
 
     @Test
@@ -51,7 +60,25 @@ public final class LoggersTest
     }
 
     @Test
-    public void performance1()
+    public void performanceForEmptyMessage()
+    {
+        for (int i = 0; i < MANY_TIMES; i++)
+        {
+            Loggers.formatMessage("");
+        }
+    }
+
+    @Test
+    public void performanceForZeroArguments()
+    {
+        for (int i = 0; i < MANY_TIMES; i++)
+        {
+            Loggers.formatMessage(" ");
+        }
+    }
+
+    @Test
+    public void performanceForOneArgument()
     {
         for (int i = 0; i < MANY_TIMES; i++)
         {
@@ -60,7 +87,7 @@ public final class LoggersTest
     }
 
     @Test
-    public void performance2()
+    public void performanceForTwoArguments()
     {
         for (int i = 0; i < MANY_TIMES; i++)
         {
@@ -69,11 +96,21 @@ public final class LoggersTest
     }
 
     @Test
-    public void performance3()
+    public void performanceForThreeArguments()
     {
         for (int i = 0; i < MANY_TIMES; i++)
         {
             Loggers.formatMessage(" {} {} {} ", "a", "b", "c");
+        }
+    }
+
+    @Test
+    public void performanceForCollectionSize()
+    {
+        final Collection<String> collection = ImmutableList.of("a", "b", "c");
+        for (int i = 0; i < MANY_TIMES; i++)
+        {
+            Loggers.formatMessage(" {size} ", collection);
         }
     }
 }
