@@ -68,8 +68,15 @@ public final class Loggers
             Preconditions.checkArgument(close >= 0, "message is missing closing brace: %s", message);
             final String method = message.substring(open + 1, close);
             formattedMessage.append(message.substring(alreadyProcessed, open));
-            formattedMessage.append(formatArgument(args[argumentRank], method));
-            argumentRank++;
+            if (method.startsWith("@"))
+            {
+                formattedMessage.append(formatMacro(method));
+            }
+            else
+            {
+                formattedMessage.append(formatArgument(args[argumentRank], method));
+                argumentRank++;
+            }
             alreadyProcessed = close + 1;
         }
 
@@ -140,5 +147,28 @@ public final class Loggers
         {
             throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method, e);
         }
+    }
+
+    public static Object formatMacro(final String macro)
+    {
+        Preconditions.checkNotNull(macro);
+
+        if (macro.equals("@method"))
+        {
+            final StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+
+            for (int i = 1; i < stackTraceElements.length; i++)
+            {
+                if (!stackTraceElements[i].getClassName().equals(Loggers.class.getName())
+                        && !stackTraceElements[i].getClassName().equals(Logger.class.getName()))
+                {
+                    return stackTraceElements[i].getMethodName() + "()";
+                }
+            }
+
+            return "<unknown>";
+        }
+
+        throw new UnsupportedOperationException("macro = " + macro);
     }
 }

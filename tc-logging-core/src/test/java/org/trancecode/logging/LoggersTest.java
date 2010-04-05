@@ -65,6 +65,18 @@ public final class LoggersTest
     }
 
     @Test
+    public void formatMacroMethod1()
+    {
+        Assert.assertEquals(Loggers.formatMacro("@method").toString(), "formatMacroMethod1()");
+    }
+
+    @Test
+    public void formatMacroMethod2()
+    {
+        Assert.assertEquals(Loggers.formatMacro("@method").toString(), "formatMacroMethod2()");
+    }
+
+    @Test
     public void performanceForEmptyMessage()
     {
         for (int i = 0; i < MANY_TIMES; i++)

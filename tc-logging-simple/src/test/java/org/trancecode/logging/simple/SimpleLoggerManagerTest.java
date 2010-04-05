@@ -51,4 +51,11 @@ public final class SimpleLoggerManagerTest
         logger.error("error {}", 123);
         logger.fatal("fatal {}", 123);
     }
+
+    @Test
+    public void logMethodMacro()
+    {
+        final Logger logger = Logger.getLogger(SimpleLoggerManagerTest.class);
+        logger.info("{@method}");
+    }
 }
