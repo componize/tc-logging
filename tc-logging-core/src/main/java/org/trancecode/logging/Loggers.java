@@ -15,18 +15,24 @@
  */
 package org.trancecode.logging;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicates;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.NoSuchElementException;
+import java.util.ServiceLoader;
 
 /**
  * @author Herve Quiroz
  */
 public final class Loggers
 {
+    private static final Iterable<ArgumentFormatter> argumentFormatters = ImmutableList.copyOf(ServiceLoader
+            .load(ArgumentFormatter.class));
+
     private Loggers()
     {
         // No instantiation
@@ -97,41 +103,23 @@ public final class Loggers
             return argument;
         }
 
-        if (argument instanceof Throwable && method.equals("getMessage"))
+        final Iterable<Object> formattedArguments = Iterables.transform(argumentFormatters,
+                new Function<ArgumentFormatter, Object>()
+                {
+                    @Override
+                    public Object apply(final ArgumentFormatter argumentFormatter)
+                    {
+                        return argumentFormatter.formatArgument(argument, method);
+                    }
+                });
+
+        try
         {
-            return ((Throwable) argument).getMessage();
+            return Iterables.find(formattedArguments, Predicates.notNull());
         }
-
-        if (argument instanceof Throwable && method.equals("getStackTrace"))
+        catch (final NoSuchElementException e)
         {
-            final StringWriter writer = new StringWriter();
-            final PrintWriter out = new PrintWriter(writer);
-            try
-            {
-                ((Throwable) argument).printStackTrace(out);
-            }
-            finally
-            {
-                out.close();
-            }
-
-            return writer;
+            throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method, e);
         }
-
-        if (argument instanceof Collection<?>)
-        {
-            final Collection<?> collection = (Collection<?>) argument;
-            if (method.equals("size"))
-            {
-                return collection.size();
-            }
-
-            if (method.equals("isEmpty"))
-            {
-                return collection.isEmpty();
-            }
-        }
-
-        throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method);
     }
 }

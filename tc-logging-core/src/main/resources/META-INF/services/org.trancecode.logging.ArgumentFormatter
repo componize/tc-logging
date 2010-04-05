@@ -1,0 +1,2 @@
+org.trancecode.logging.CollectionArgumentFormatter
+org.trancecode.logging.ExceptionArgumentFormatter
