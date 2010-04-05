@@ -46,6 +46,11 @@ public final class LoggersTest
         Assert.assertEquals(Loggers.formatMessage("list {}", ImmutableList.of("a", "b")).toString(), "list [a, b]");
         Assert.assertEquals(Loggers.formatMessage("arrays {} {}", new String[] { "a", "b" }, new String[] { "c", "d" })
                 .toString(), "arrays [a, b] [c, d]");
+        Assert.assertEquals(Loggers
+                .formatMessage("arrays {} {}", new String[] { "a", "b" }, new String[] { "c", null }).toString(),
+                "arrays [a, b] [c, null]");
+        Assert.assertEquals(Loggers.formatMessage("arrays {} {}", new String[] { "a", "b" },
+                new Object[] { "c", new String[] { "d", "e" } }).toString(), "arrays [a, b] [c, [d, e]]");
 
         // Escape characters
         Assert.assertEquals(Loggers.formatMessage("a \\{} c", "b").toString(), "a {} c");

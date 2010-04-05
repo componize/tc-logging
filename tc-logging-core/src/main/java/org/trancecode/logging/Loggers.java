@@ -83,6 +83,26 @@ public final class Loggers
         return OBJECT_ARRAY_CLASS.isAssignableFrom(object.getClass());
     }
 
+    private static Object formatArray(final Object[] array)
+    {
+        final Object[] formattedArray = new Object[array.length];
+        System.arraycopy(array, 0, formattedArray, 0, array.length);
+
+        for (int i = 0; i < array.length; i++)
+        {
+            if (array[i] == null)
+            {
+                formattedArray[i] = "null";
+            }
+            else if (isArray(array[i]))
+            {
+                formattedArray[i] = formatArray((Object[]) array[i]);
+            }
+        }
+
+        return Arrays.toString(formattedArray);
+    }
+
     public static Object formatArgument(final Object argument, final String method)
     {
         Preconditions.checkNotNull(method);
@@ -96,8 +116,7 @@ public final class Loggers
         {
             if (isArray(argument))
             {
-                // TODO handle deep array formatting
-                return Arrays.toString((Object[]) argument);
+                return formatArray((Object[]) argument);
             }
 
             return argument;
