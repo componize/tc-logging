@@ -18,7 +18,7 @@ package org.trancecode.logging;
 /**
  * @author Herve Quiroz
  */
-public final class ArrayLengthArgumentFormatter implements ArgumentFormatter
+public final class ArrayArgumentFormatter implements ArgumentFormatter
 {
     @Override
     public Object formatArgument(final Object argument, final String method)
