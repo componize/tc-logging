@@ -57,14 +57,25 @@ public final class LoggersTest
     }
 
     @Test
-    public void formatArgument()
+    public void formatArrayArgument()
+    {
+        Assert.assertEquals(Loggers.formatArgument(new Object[] { 1, 2, 3 }, "length").toString(), "3");
+    }
+
+    @Test
+    public void formatCollectionArgument()
+    {
+        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "size").toString(), "3");
+        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "isEmpty").toString(), "false");
+        Assert.assertEquals(Loggers.formatArgument(new Object[] { 1, 2, 3 }, "length").toString(), "3");
+    }
+
+    @Test
+    public void formatExceptionArgument()
     {
         Assert
                 .assertEquals(Loggers.formatArgument(new Exception("some message"), "message").toString(),
                         "some message");
-        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "size").toString(), "3");
-        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "isEmpty").toString(), "false");
-        Assert.assertEquals(Loggers.formatArgument(new Object[] { 1, 2, 3 }, "length").toString(), "3");
     }
 
     @Test
