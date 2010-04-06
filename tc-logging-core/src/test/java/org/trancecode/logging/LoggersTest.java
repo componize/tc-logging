@@ -79,6 +79,17 @@ public final class LoggersTest
     }
 
     @Test
+    public void formatStringArgument()
+    {
+        Assert.assertEquals(Loggers.formatArgument("argument", "length").toString(), "8");
+        Assert.assertEquals(Loggers.formatArgument("Argument", "toLowerCase").toString(), "argument");
+        Assert.assertEquals(Loggers.formatArgument("Argument", "toUpperCase").toString(), "ARGUMENT");
+        Assert.assertEquals(Loggers.formatArgument(" argument ", "trim").toString(), "argument");
+        Assert.assertEquals(Loggers.formatArgument("argument", "isEmpty").toString(), "false");
+        Assert.assertEquals(Loggers.formatArgument("", "isEmpty").toString(), "true");
+    }
+
+    @Test
     public void isArray()
     {
         assert Loggers.isArray(new Object[] { "a", "b", "c" });
