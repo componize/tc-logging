@@ -19,9 +19,12 @@ import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
@@ -32,6 +35,20 @@ public final class Loggers
 {
     private static final Iterable<ArgumentFormatter> argumentFormatters = ImmutableList.copyOf(ServiceLoader
             .load(ArgumentFormatter.class));
+    private static final Map<String, MacroRenderer> macroRenderers;
+
+    static
+    {
+        final Map<String, MacroRenderer> renderers = Maps.newHashMap();
+        for (final MacroRenderer renderer : ServiceLoader.load(MacroRenderer.class))
+        {
+            Preconditions.checkNotNull(renderer.name());
+            Preconditions.checkArgument(renderer.name().startsWith("@"), "name = %s", renderer.name());
+            renderers.put(renderer.name(), renderer);
+        }
+
+        macroRenderers = ImmutableMap.copyOf(renderers);
+    }
 
     private Loggers()
     {
@@ -153,20 +170,10 @@ public final class Loggers
     {
         Preconditions.checkNotNull(macro);
 
-        if (macro.equals("@method"))
+        final MacroRenderer macroRenderer = macroRenderers.get(macro);
+        if (macroRenderer != null)
         {
-            final StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-
-            for (int i = 1; i < stackTraceElements.length; i++)
-            {
-                if (!stackTraceElements[i].getClassName().equals(Loggers.class.getName())
-                        && !stackTraceElements[i].getClassName().equals(Logger.class.getName()))
-                {
-                    return stackTraceElements[i].getMethodName() + "()";
-                }
-            }
-
-            return "<unknown>";
+            return macroRenderer.get();
         }
 
         throw new UnsupportedOperationException("macro = " + macro);
