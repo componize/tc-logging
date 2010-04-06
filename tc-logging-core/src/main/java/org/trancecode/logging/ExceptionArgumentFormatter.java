@@ -29,12 +29,12 @@ public final class ExceptionArgumentFormatter implements ArgumentFormatter
     {
         if (argument instanceof Throwable)
         {
-            if (method.equals("getMessage"))
+            if (method.equals("message"))
             {
                 return ((Throwable) argument).getMessage();
             }
 
-            if (method.equals("getStackTrace"))
+            if (method.equals("stackTrace"))
             {
                 final StringWriter writer = new StringWriter();
                 final PrintWriter out = new PrintWriter(writer);

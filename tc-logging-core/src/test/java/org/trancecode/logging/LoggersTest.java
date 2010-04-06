@@ -59,7 +59,9 @@ public final class LoggersTest
     @Test
     public void formatArgument()
     {
-        Assert.assertEquals(Loggers.formatArgument(new Exception("message"), "getMessage").toString(), "message");
+        Assert
+                .assertEquals(Loggers.formatArgument(new Exception("some message"), "message").toString(),
+                        "some message");
         Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "size").toString(), "3");
         Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "isEmpty").toString(), "false");
     }
