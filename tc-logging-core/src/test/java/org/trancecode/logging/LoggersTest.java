@@ -64,6 +64,14 @@ public final class LoggersTest
                         "some message");
         Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "size").toString(), "3");
         Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "isEmpty").toString(), "false");
+        Assert.assertEquals(Loggers.formatArgument(new Object[] { 1, 2, 3 }, "length").toString(), "3");
+    }
+
+    @Test
+    public void isArray()
+    {
+        assert Loggers.isArray(new Object[] { "a", "b", "c" });
+        assert Loggers.isArray(new Object[] { 1, 2, 3 });
     }
 
     @Test

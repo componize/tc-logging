@@ -102,7 +102,7 @@ public final class Loggers
 
     private static final Class<?> OBJECT_ARRAY_CLASS = new Object[0].getClass();
 
-    private static boolean isArray(final Object object)
+    protected static boolean isArray(final Object object)
     {
         return OBJECT_ARRAY_CLASS.isAssignableFrom(object.getClass());
     }
@@ -162,7 +162,8 @@ public final class Loggers
         }
         catch (final NoSuchElementException e)
         {
-            throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method, e);
+            throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method
+                    + "\nformatters = " + argumentFormatters, e);
         }
     }
 

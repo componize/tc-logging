@@ -1,2 +1,3 @@
+org.trancecode.logging.ArrayLengthArgumentFormatter
 org.trancecode.logging.CollectionArgumentFormatter
 org.trancecode.logging.ExceptionArgumentFormatter
