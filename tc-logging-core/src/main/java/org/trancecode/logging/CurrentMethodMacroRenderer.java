@@ -18,7 +18,7 @@ package org.trancecode.logging;
 /**
  * @author Herve Quiroz
  */
-public class CurrentMethodMacroRenderer implements MacroRenderer
+public final class CurrentMethodMacroRenderer implements MacroRenderer
 {
     @Override
     public Object get()
