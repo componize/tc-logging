@@ -67,11 +67,11 @@ public final class SimpleLoggerManagerTest
     {
         final Logger logger = Logger.getLogger(SimpleLoggerManagerTest.class);
 
-        final Duration milliseconds = Duration.of(TimeUnit.MILLISECONDS);
+        final Object milliseconds = Duration.of(TimeUnit.MILLISECONDS);
         Thread.sleep(10);
         logger.info("{}", milliseconds);
 
-        final Duration seconds = Duration.of(TimeUnit.SECONDS);
+        final Object seconds = Duration.of(TimeUnit.SECONDS);
         Thread.sleep(10);
         logger.info("{}", seconds);
     }
