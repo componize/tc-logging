@@ -24,25 +24,21 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Duration
 {
-    private final TimeUnit unit;
-    private final long startTime;
-
-    public static final Duration of(final TimeUnit unit)
+    public static final Object of(final TimeUnit unit)
     {
-        return new Duration(unit);
-    }
+        Preconditions.checkNotNull(unit);
 
-    private Duration(final TimeUnit unit)
-    {
-        this.unit = Preconditions.checkNotNull(unit);
-        startTime = System.nanoTime();
-    }
+        return new Object()
+        {
+            private final long startTime = System.nanoTime();
 
-    @Override
-    public String toString()
-    {
-        final long duration = System.nanoTime() - startTime;
-        final long unitDuration = unit.convert(duration, TimeUnit.NANOSECONDS);
-        return unitDuration + " " + unit.toString().toLowerCase();
+            @Override
+            public String toString()
+            {
+                final long duration = System.nanoTime() - startTime;
+                final long unitDuration = unit.convert(duration, TimeUnit.NANOSECONDS);
+                return unitDuration + " " + unit.toString().toLowerCase();
+            }
+        };
     }
 }
