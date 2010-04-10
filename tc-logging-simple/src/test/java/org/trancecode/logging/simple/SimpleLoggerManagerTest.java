@@ -15,8 +15,11 @@
  */
 package org.trancecode.logging.simple;
 
+import java.util.concurrent.TimeUnit;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.trancecode.logging.Duration;
 import org.trancecode.logging.Logger;
 import org.trancecode.logging.LoggerManager;
 
@@ -57,5 +60,19 @@ public final class SimpleLoggerManagerTest
     {
         final Logger logger = Logger.getLogger(SimpleLoggerManagerTest.class);
         logger.info("{@method}");
+    }
+
+    @Test
+    public void duration() throws Exception
+    {
+        final Logger logger = Logger.getLogger(SimpleLoggerManagerTest.class);
+
+        final Duration milliseconds = Duration.of(TimeUnit.MILLISECONDS);
+        Thread.sleep(10);
+        logger.info("{}", milliseconds);
+
+        final Duration seconds = Duration.of(TimeUnit.SECONDS);
+        Thread.sleep(10);
+        logger.info("{}", seconds);
     }
 }
