@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Duration
 {
-    public static final Object of(final TimeUnit unit)
+    public static Object of(final TimeUnit unit)
     {
         Preconditions.checkNotNull(unit);
 
