@@ -23,12 +23,15 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
 /**
+ * Utility methods used internally by the logging facade framework.
+ * 
  * @author Herve Quiroz
  */
 public final class Loggers
@@ -55,6 +58,56 @@ public final class Loggers
         // No instantiation
     }
 
+    /**
+     * Format a given message, replacing some place-holders using the passed
+     * arguments.
+     * <p>
+     * The tc-logging library uses the same log message syntax as <a
+     * href="http://www.slf4j.org/">SLF4J</a> but relies on {@code varargs} to
+     * pass an arbitrary number of extra arguments:
+     * <p>
+     * <code>
+     * logger.trace("size is {}", size);
+     * logger.trace("a = {} ; b = {} ; c = {} ; d = {}", a, b, c, d);
+     * </code>
+     * <p>
+     * To actually print a curly brace (<code>}</code>), you will have to escape
+     * it using a back-slash:
+     * <p>
+     * <code>
+     * logger.trace("this is a curly brace: \\{");
+     * </code>
+     * <p>
+     * Extra formatting hints may be passed within the curly braces. They allow
+     * a specific formatting method to be applied to the passed argument:
+     * <p>
+     * <code>
+     * logger.debug("size is {size}", collection); // collection.size()
+     * logger.debug("collection is empty? {isEmpty}", collection); // collection.isEmpty()
+     * </code>
+     * <p>
+     * Some keywords in log message are bound to <b>macros</b> rather than a
+     * passed argument. They are embedded within curly braces just as regular
+     * formatter place-holders but the name starts with a <code>@</code>:
+     * <p>
+     * <code>
+     * public void myMethod()
+     * {
+     *   logger.trace("in {@method}: i = {}", 4);
+     * }
+     * </code>
+     * <p>
+     * will print:
+     * <p>
+     * <code>
+     * in myMethod(): i = 4
+     * </code>
+     * 
+     * @see #formatArgument(Object, String)
+     * @see ArgumentFormatter
+     * @see #formatMacro(String)
+     * @see MacroRenderer
+     */
     public static Object formatMessage(final String message, final Object... args)
     {
         if (message.isEmpty())
@@ -127,6 +180,17 @@ public final class Loggers
         return Arrays.toString(formattedArray);
     }
 
+    /**
+     * Returns the specified argument formatted using the passed method.
+     * <p>
+     * The <code>method</code> parameter here does not necessarily refer to Java
+     * {@link Method}.
+     * <p>
+     * All registered {@link ArgumentFormatter} instances are queried until one
+     * of them supports the argument class and specified method.
+     * 
+     * @see ArgumentFormatter
+     */
     public static Object formatArgument(final Object argument, final String method)
     {
         Preconditions.checkNotNull(method);
@@ -167,6 +231,12 @@ public final class Loggers
         }
     }
 
+    /**
+     * Renders the specified macro as an {@link Object} that can be used as an
+     * argument in a log message.
+     * 
+     * @see MacroRenderer
+     */
     public static Object formatMacro(final String macro)
     {
         Preconditions.checkNotNull(macro);
