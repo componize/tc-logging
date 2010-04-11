@@ -65,6 +65,7 @@
 
   <modules>
     <module>tc-logging-core</module>
+    <module>tc-logging-extra</module>
     <module>tc-logging-log4j</module>
     <module>tc-logging-simple</module>
     <module>tc-logging-null</module>
