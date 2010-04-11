@@ -18,17 +18,25 @@ package org.trancecode.logging;
 import com.google.common.base.Preconditions;
 
 /**
+ * The main logger facade class.
+ * 
  * @author Herve Quiroz
  */
 public final class Logger
 {
     private final DelegateLogger delegateLogger;
 
+    /**
+     * Returns a logger for the specified class.
+     */
     public static Logger getLogger(final Class<?> forClass)
     {
         return new Logger(LoggerManager.getLoggerManager().getDelegateLogger(forClass));
     }
 
+    /**
+     * Returns a logger for the specified logging channel name.
+     */
     public static Logger getLogger(final String name)
     {
         return new Logger(LoggerManager.getLoggerManager().getDelegateLogger(name));
@@ -39,11 +47,17 @@ public final class Logger
         this.delegateLogger = Preconditions.checkNotNull(delegateLogger);
     }
 
+    /**
+     * Returns the name of the logging channel.
+     */
     public String name()
     {
         return delegateLogger.loggerName();
     }
 
+    /**
+     * Return a child logger of this logging channel.
+     */
     public Logger getChildLogger(final String name)
     {
         return new Logger(delegateLogger.getChild(name));
@@ -64,31 +78,85 @@ public final class Logger
         }
     }
 
+    /**
+     * Sends a {@link LoggerLevel#TRACE}-level log event to the underlying
+     * logger or logging channel.
+     * <p>
+     * The message is actually only formatted if the {@link LoggerLevel#TRACE}
+     * level is enabled for the underlying logger or logging channel.
+     * 
+     * @see Loggers#formatMessage(String, Object...)
+     */
     public void trace(final String message, final Object... args)
     {
         log(LoggerLevel.TRACE, message, args);
     }
 
+    /**
+     * Sends a {@link LoggerLevel#DEBUG}-level log event to the underlying
+     * logger or logging channel.
+     * <p>
+     * The message is actually only formatted if the {@link LoggerLevel#DEBUG}
+     * level is enabled for the underlying logger or logging channel.
+     * 
+     * @see Loggers#formatMessage(String, Object...)
+     */
     public void debug(final String message, final Object... args)
     {
         log(LoggerLevel.DEBUG, message, args);
     }
 
+    /**
+     * Sends a {@link LoggerLevel#INFO}-level log event to the underlying logger
+     * or logging channel.
+     * <p>
+     * The message is actually only formatted if the {@link LoggerLevel#INFO}
+     * level is enabled for the underlying logger or logging channel.
+     * 
+     * @see Loggers#formatMessage(String, Object...)
+     */
     public void info(final String message, final Object... args)
     {
         log(LoggerLevel.INFO, message, args);
     }
 
+    /**
+     * Sends a {@link LoggerLevel#WARN}-level log event to the underlying logger
+     * or logging channel.
+     * <p>
+     * The message is actually only formatted if the {@link LoggerLevel#WARN}
+     * level is enabled for the underlying logger or logging channel.
+     * 
+     * @see Loggers#formatMessage(String, Object...)
+     */
     public void warn(final String message, final Object... args)
     {
         log(LoggerLevel.WARN, message, args);
     }
 
+    /**
+     * Sends a {@link LoggerLevel#ERROR}-level log event to the underlying
+     * logger or logging channel.
+     * <p>
+     * The message is actually only formatted if the {@link LoggerLevel#ERROR}
+     * level is enabled for the underlying logger or logging channel.
+     * 
+     * @see Loggers#formatMessage(String, Object...)
+     */
     public void error(final String message, final Object... args)
     {
         log(LoggerLevel.ERROR, message, args);
     }
 
+    /**
+     * Sends a {@link LoggerLevel#FATAL}-level log event to the underlying
+     * logger or logging channel.
+     * <p>
+     * The message is actually only formatted if the {@link LoggerLevel#FATAL}
+     * level is enabled for the underlying logger or logging channel.
+     * 
+     * @see Loggers#formatMessage(String, Object...)
+     */
     public void fatal(final String message, final Object... args)
     {
         log(LoggerLevel.FATAL, message, args);
