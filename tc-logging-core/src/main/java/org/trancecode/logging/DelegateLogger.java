@@ -16,17 +16,45 @@
 package org.trancecode.logging;
 
 /**
+ * Provides the internal logic of a {@link Logger} facade.
+ * <p>
+ * Should be implemented by service providers along with {@link LoggerManager}.
+ * 
  * @author Herve Quiroz
+ * @see LoggerManager#getDelegateLogger(String)
  */
 public interface DelegateLogger
 {
+    /**
+     * Returns the name of the underlying logger or logging channel.
+     */
     String loggerName();
 
+    /**
+     * Returns {@code true} if the specified logging level is enabled on the
+     * underlying logger or logging channel.
+     */
     boolean isLevelEnabled(LoggerLevel level);
 
+    /**
+     * Logs a message through the underlying logger or logging channel for the
+     * specified level.
+     */
     void log(LoggerLevel level, Object message);
 
+    /**
+     * Returns a child logger of this logger.
+     * <p>
+     * The logic here depends on the naming scheme used by the underlying
+     * logging mechanism.
+     */
     DelegateLogger getChild(String childName);
 
+    /**
+     * Report an internal error to the underlying logger or logging channel.
+     * <p>
+     * This method is used internally by tc-logging to report misuses of the
+     * tc-logging framework or tc-logging implementation flaws.
+     */
     void error(Throwable t);
 }
