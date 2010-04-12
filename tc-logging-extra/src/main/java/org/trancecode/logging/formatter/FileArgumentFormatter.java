@@ -17,13 +17,13 @@ package org.trancecode.logging.formatter;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.testng.v6.Maps;
 import org.trancecode.logging.ArgumentFormatter;
 
 /**
