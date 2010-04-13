@@ -30,6 +30,7 @@ import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
 import org.trancecode.logging.formatter.ArgumentFormatter;
+import org.trancecode.logging.macro.MacroRenderer;
 
 /**
  * Utility methods used internally by the logging facade framework.

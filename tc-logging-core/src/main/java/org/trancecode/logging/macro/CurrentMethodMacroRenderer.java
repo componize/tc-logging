@@ -13,7 +13,10 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.trancecode.logging;
+package org.trancecode.logging.macro;
+
+import org.trancecode.logging.Logger;
+import org.trancecode.logging.Loggers;
 
 /**
  * @author Herve Quiroz
