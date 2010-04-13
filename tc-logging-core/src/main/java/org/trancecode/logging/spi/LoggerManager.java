@@ -26,7 +26,7 @@ public abstract class LoggerManager
 {
     private static LoggerManager loggerManager;
 
-    public static LoggerManager getLoggerManager()
+    public static final LoggerManager getLoggerManager()
     {
         if (loggerManager == null)
         {
