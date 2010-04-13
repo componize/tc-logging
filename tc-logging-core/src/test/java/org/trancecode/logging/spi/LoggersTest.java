@@ -21,7 +21,6 @@ import java.util.Collection;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.trancecode.logging.spi.Loggers;
 
 /**
  * Tests for {@link Loggers}.
@@ -55,39 +54,6 @@ public final class LoggersTest
 
         // Escape characters
         Assert.assertEquals(Loggers.formatMessage("a \\{} c", "b").toString(), "a {} c");
-    }
-
-    @Test
-    public void formatArrayArgument()
-    {
-        Assert.assertEquals(Loggers.formatArgument(new Object[] { 1, 2, 3 }, "length").toString(), "3");
-    }
-
-    @Test
-    public void formatCollectionArgument()
-    {
-        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "size").toString(), "3");
-        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "isEmpty").toString(), "false");
-        Assert.assertEquals(Loggers.formatArgument(new Object[] { 1, 2, 3 }, "length").toString(), "3");
-    }
-
-    @Test
-    public void formatExceptionArgument()
-    {
-        Assert
-                .assertEquals(Loggers.formatArgument(new Exception("some message"), "message").toString(),
-                        "some message");
-    }
-
-    @Test
-    public void formatStringArgument()
-    {
-        Assert.assertEquals(Loggers.formatArgument("argument", "length").toString(), "8");
-        Assert.assertEquals(Loggers.formatArgument("Argument", "toLowerCase").toString(), "argument");
-        Assert.assertEquals(Loggers.formatArgument("Argument", "toUpperCase").toString(), "ARGUMENT");
-        Assert.assertEquals(Loggers.formatArgument(" argument ", "trim").toString(), "argument");
-        Assert.assertEquals(Loggers.formatArgument("argument", "isEmpty").toString(), "false");
-        Assert.assertEquals(Loggers.formatArgument("", "isEmpty").toString(), "true");
     }
 
     @Test
