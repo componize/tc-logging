@@ -13,12 +13,23 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.trancecode.logging;
+package org.trancecode.logging.formatter;
+
+import org.trancecode.base.TcArrays;
 
 /**
  * @author Herve Quiroz
  */
-public interface ArgumentFormatter
+public final class ArrayArgumentFormatter implements ArgumentFormatter
 {
-    Object formatArgument(final Object argument, final String method);
+    @Override
+    public Object formatArgument(final Object argument, final String method)
+    {
+        if (TcArrays.isArray(argument) && method.equals("length"))
+        {
+            return ((Object[]) argument).length;
+        }
+
+        return null;
+    }
 }

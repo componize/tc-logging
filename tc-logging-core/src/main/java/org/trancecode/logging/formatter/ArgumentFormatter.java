@@ -13,21 +13,12 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.trancecode.logging;
+package org.trancecode.logging.formatter;
 
 /**
  * @author Herve Quiroz
  */
-public final class ArrayArgumentFormatter implements ArgumentFormatter
+public interface ArgumentFormatter
 {
-    @Override
-    public Object formatArgument(final Object argument, final String method)
-    {
-        if (Loggers.isArray(argument) && method.equals("length"))
-        {
-            return ((Object[]) argument).length;
-        }
-
-        return null;
-    }
+    Object formatArgument(final Object argument, final String method);
 }

@@ -13,44 +13,34 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.trancecode.logging;
+package org.trancecode.logging.formatter;
+
+import java.util.Collection;
 
 /**
  * @author Herve Quiroz
  */
-public final class StringArgumentFormatter implements ArgumentFormatter
+public final class CollectionArgumentFormatter implements ArgumentFormatter
 {
+
     @Override
     public Object formatArgument(final Object argument, final String method)
     {
-        if (argument instanceof String)
+        if (argument instanceof Collection<?>)
         {
+            final Collection<?> collection = (Collection<?>) argument;
+            if (method.equals("size"))
+            {
+                return collection.size();
+            }
+
             if (method.equals("isEmpty"))
             {
-                return ((String) argument).isEmpty();
-            }
-
-            if (method.equals("length"))
-            {
-                return ((String) argument).length();
-            }
-
-            if (method.equals("trim"))
-            {
-                return ((String) argument).trim();
-            }
-
-            if (method.equals("toLowerCase"))
-            {
-                return ((String) argument).toLowerCase();
-            }
-
-            if (method.equals("toUpperCase"))
-            {
-                return ((String) argument).toUpperCase();
+                return collection.isEmpty();
             }
         }
 
         return null;
     }
+
 }

@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
+import org.trancecode.logging.formatter.ArgumentFormatter;
+
 /**
  * Utility methods used internally by the logging facade framework.
  * 
