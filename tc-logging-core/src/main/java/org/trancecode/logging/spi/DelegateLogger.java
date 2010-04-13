@@ -16,7 +16,6 @@
 package org.trancecode.logging.spi;
 
 import org.trancecode.logging.Logger;
-import org.trancecode.logging.LoggerLevel;
 
 /**
  * Provides the internal logic of a {@link Logger} facade.

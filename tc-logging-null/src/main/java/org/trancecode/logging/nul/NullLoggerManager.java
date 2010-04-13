@@ -15,8 +15,8 @@
  */
 package org.trancecode.logging.nul;
 
-import org.trancecode.logging.LoggerLevel;
 import org.trancecode.logging.spi.DelegateLogger;
+import org.trancecode.logging.spi.LoggerLevel;
 import org.trancecode.logging.spi.LoggerManager;
 
 /**
