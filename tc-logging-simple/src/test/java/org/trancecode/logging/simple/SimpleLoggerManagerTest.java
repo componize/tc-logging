@@ -21,7 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.trancecode.logging.Duration;
 import org.trancecode.logging.Logger;
-import org.trancecode.logging.LoggerManager;
+import org.trancecode.logging.spi.LoggerManager;
 
 /**
  * Tests for {@link SimpleLoggerManager}.

@@ -23,9 +23,9 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.trancecode.logging.DelegateLogger;
 import org.trancecode.logging.LoggerLevel;
-import org.trancecode.logging.LoggerManager;
+import org.trancecode.logging.spi.DelegateLogger;
+import org.trancecode.logging.spi.LoggerManager;
 
 /**
  * @author Herve Quiroz

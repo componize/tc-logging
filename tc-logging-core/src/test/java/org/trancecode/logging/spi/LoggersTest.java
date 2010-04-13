@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.trancecode.logging;
+package org.trancecode.logging.spi;
 
 import com.google.common.collect.ImmutableList;
 
@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.trancecode.logging.spi.Loggers;
 
 /**
  * Tests for {@link Loggers}.

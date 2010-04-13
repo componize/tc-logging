@@ -20,7 +20,7 @@ import java.io.FileOutputStream;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.trancecode.logging.Loggers;
+import org.trancecode.logging.spi.Loggers;
 
 /**
  * Tests for {@link FileArgumentFormatter}.

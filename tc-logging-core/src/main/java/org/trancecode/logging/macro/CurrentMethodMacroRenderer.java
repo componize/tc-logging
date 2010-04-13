@@ -16,7 +16,7 @@
 package org.trancecode.logging.macro;
 
 import org.trancecode.logging.Logger;
-import org.trancecode.logging.Loggers;
+import org.trancecode.logging.spi.Loggers;
 
 /**
  * @author Herve Quiroz

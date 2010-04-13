@@ -15,9 +15,9 @@
  */
 package org.trancecode.logging.nul;
 
-import org.trancecode.logging.DelegateLogger;
 import org.trancecode.logging.LoggerLevel;
-import org.trancecode.logging.LoggerManager;
+import org.trancecode.logging.spi.DelegateLogger;
+import org.trancecode.logging.spi.LoggerManager;
 
 /**
  * @author Herve Quiroz

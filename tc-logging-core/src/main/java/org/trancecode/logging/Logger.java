@@ -15,6 +15,9 @@
  */
 package org.trancecode.logging;
 
+import org.trancecode.logging.spi.DelegateLogger;
+import org.trancecode.logging.spi.LoggerManager;
+import org.trancecode.logging.spi.Loggers;
 import com.google.common.base.Preconditions;
 
 /**
