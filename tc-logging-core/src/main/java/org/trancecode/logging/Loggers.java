@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
+import org.trancecode.base.TcArrays;
 import org.trancecode.logging.formatter.ArgumentFormatter;
 import org.trancecode.logging.macro.MacroRenderer;
 
@@ -156,13 +157,6 @@ public final class Loggers
         return formattedMessage;
     }
 
-    private static final Class<?> OBJECT_ARRAY_CLASS = new Object[0].getClass();
-
-    protected static boolean isArray(final Object object)
-    {
-        return OBJECT_ARRAY_CLASS.isAssignableFrom(object.getClass());
-    }
-
     private static Object formatArray(final Object[] array)
     {
         final Object[] formattedArray = new Object[array.length];
@@ -174,7 +168,7 @@ public final class Loggers
             {
                 formattedArray[i] = "null";
             }
-            else if (isArray(array[i]))
+            else if (TcArrays.isArray(array[i]))
             {
                 formattedArray[i] = formatArray((Object[]) array[i]);
             }
@@ -205,7 +199,7 @@ public final class Loggers
 
         if (method.isEmpty())
         {
-            if (isArray(argument))
+            if (TcArrays.isArray(argument))
             {
                 return formatArray((Object[]) argument);
             }

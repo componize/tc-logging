@@ -90,13 +90,6 @@ public final class LoggersTest
     }
 
     @Test
-    public void isArray()
-    {
-        assert Loggers.isArray(new Object[] { "a", "b", "c" });
-        assert Loggers.isArray(new Object[] { 1, 2, 3 });
-    }
-
-    @Test
     public void formatMacroMethod1()
     {
         Assert.assertEquals(Loggers.formatMacro("@method").toString(), "formatMacroMethod1()");
