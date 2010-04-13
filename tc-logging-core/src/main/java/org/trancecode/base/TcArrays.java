@@ -16,6 +16,8 @@
 package org.trancecode.base;
 
 /**
+ * Utility methods related to arrays.
+ * 
  * @author Herve Quiroz
  */
 public final class TcArrays
@@ -27,6 +29,9 @@ public final class TcArrays
         // No instantiation
     }
 
+    /**
+     * Returns {@code true} if the specified object is an array.
+     */
     public static boolean isArray(final Object object)
     {
         return OBJECT_ARRAY_CLASS.isAssignableFrom(object.getClass());
