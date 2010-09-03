@@ -2,4 +2,5 @@ org.trancecode.logging.formatter.ArrayArgumentFormatter
 org.trancecode.logging.formatter.ClassArgumentFormatter
 org.trancecode.logging.formatter.CollectionArgumentFormatter
 org.trancecode.logging.formatter.ExceptionArgumentFormatter
+org.trancecode.logging.formatter.MapArgumentFormatter
 org.trancecode.logging.formatter.StringArgumentFormatter
