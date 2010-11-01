@@ -17,6 +17,7 @@ package org.trancecode.logging.spi;
 
 import com.google.common.collect.Iterators;
 
+import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
 /**
@@ -31,7 +32,15 @@ public abstract class LoggerManager
         if (loggerManager == null)
         {
             final ServiceLoader<LoggerManager> serviceLoader = ServiceLoader.load(LoggerManager.class);
-            loggerManager = Iterators.getOnlyElement(serviceLoader.iterator());
+            try
+            {
+                loggerManager = Iterators.getOnlyElement(serviceLoader.iterator());
+            }
+            catch (final NoSuchElementException e)
+            {
+                throw new IllegalStateException(String.format("no %s implementation could be found on the classpath",
+                        LoggerManager.class.getName()));
+            }
         }
 
         return loggerManager;
