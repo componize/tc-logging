@@ -15,6 +15,8 @@
  */
 package org.trancecode.logging.spi;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Iterators;
 
 import java.util.NoSuchElementException;
@@ -25,25 +27,32 @@ import java.util.ServiceLoader;
  */
 public abstract class LoggerManager
 {
-    private static LoggerManager loggerManager;
-
-    public static final LoggerManager getLoggerManager()
+    private static Supplier<LoggerManager> loggerManager = new Supplier<LoggerManager>()
     {
-        if (loggerManager == null)
+        @Override
+        public LoggerManager get()
         {
             final ServiceLoader<LoggerManager> serviceLoader = ServiceLoader.load(LoggerManager.class);
+            final LoggerManager instance;
             try
             {
-                loggerManager = Iterators.getOnlyElement(serviceLoader.iterator());
+                instance = Iterators.getOnlyElement(serviceLoader.iterator());
             }
             catch (final NoSuchElementException e)
             {
                 throw new IllegalStateException(String.format("no %s implementation could be found on the classpath",
                         LoggerManager.class.getName()));
             }
-        }
 
-        return loggerManager;
+            loggerManager = Suppliers.ofInstance(instance);
+
+            return instance;
+        }
+    };
+
+    public static final LoggerManager getLoggerManager()
+    {
+        return loggerManager.get();
     }
 
     public abstract DelegateLogger getDelegateLogger(final String name);
