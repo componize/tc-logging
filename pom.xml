@@ -40,7 +40,7 @@
 
   <scm>
     <connection>scm:hg:https://tc-logging.googlecode.com/hg/</connection>
-    <developerConnection>scm:hg:https://tc-logging.googlecode.com/hg/</developerConnection>
+    <developerConnection>scm:hg:file:///${basedir}</developerConnection>
     <url>http://code.google.com/p/tc-logging/source/browse/</url>
   </scm>
 
