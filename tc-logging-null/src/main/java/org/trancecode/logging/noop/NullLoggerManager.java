@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.trancecode.logging.nul;
+package org.trancecode.logging.noop;
 
 import org.trancecode.logging.spi.DelegateLogger;
 import org.trancecode.logging.spi.LoggerLevel;
