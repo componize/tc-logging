@@ -17,6 +17,7 @@ package org.trancecode.logging.spi;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -38,13 +39,14 @@ public final class Loggers
 
     static
     {
-        MACRO_RENDERERS = new HashMap<String, MacroRenderer>();
+        final Map<String, MacroRenderer> macroRenderers = new HashMap<String, MacroRenderer>();
         for (final MacroRenderer renderer : ServiceLoader.load(MacroRenderer.class))
         {
             Preconditions.checkNotNull(renderer.name());
             Preconditions.checkArgument(renderer.name().startsWith("@"), "name = %s", renderer.name());
-            MACRO_RENDERERS.put(renderer.name(), renderer);
+            macroRenderers.put(renderer.name(), renderer);
         }
+        MACRO_RENDERERS = Collections.unmodifiableMap(macroRenderers);
     }
 
     private Loggers()
