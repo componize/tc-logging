@@ -33,17 +33,17 @@ import org.trancecode.logging.macro.MacroRenderer;
  */
 public final class Loggers
 {
-    private static final Iterable<ArgumentFormatter> argumentFormatters = ServiceLoader.load(ArgumentFormatter.class);
-    private static final Map<String, MacroRenderer> macroRenderers;
+    private static final Iterable<ArgumentFormatter> ARGUMENT_FORMATTERS = ServiceLoader.load(ArgumentFormatter.class);
+    private static final Map<String, MacroRenderer> MACRO_RENDERERS;
 
     static
     {
-        macroRenderers = new HashMap<String, MacroRenderer>();
+        MACRO_RENDERERS = new HashMap<String, MacroRenderer>();
         for (final MacroRenderer renderer : ServiceLoader.load(MacroRenderer.class))
         {
             Preconditions.checkNotNull(renderer.name());
             Preconditions.checkArgument(renderer.name().startsWith("@"), "name = %s", renderer.name());
-            macroRenderers.put(renderer.name(), renderer);
+            MACRO_RENDERERS.put(renderer.name(), renderer);
         }
     }
 
@@ -197,7 +197,7 @@ public final class Loggers
             return argument;
         }
 
-        for (final ArgumentFormatter argumentFormatter : argumentFormatters)
+        for (final ArgumentFormatter argumentFormatter : ARGUMENT_FORMATTERS)
         {
             final Object formattedArgument = argumentFormatter.formatArgument(argument, method);
             if (formattedArgument != null)
@@ -206,7 +206,7 @@ public final class Loggers
             }
         }
         throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method
-                + "\nformatters = " + argumentFormatters);
+                + "\nformatters = " + ARGUMENT_FORMATTERS);
     }
 
     /**
@@ -219,7 +219,7 @@ public final class Loggers
     {
         Preconditions.checkNotNull(macro);
 
-        final MacroRenderer macroRenderer = macroRenderers.get(macro);
+        final MacroRenderer macroRenderer = MACRO_RENDERERS.get(macro);
         if (macroRenderer != null)
         {
             return macroRenderer.get();
