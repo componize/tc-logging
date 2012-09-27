@@ -15,13 +15,8 @@
  */
 package org.trancecode.logging.formatter;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
@@ -30,39 +25,25 @@ import org.apache.commons.io.FileUtils;
  */
 public final class FileArgumentFormatter implements ArgumentFormatter
 {
-    private static final Map<String, Function<File, Object>> FUNCTIONS;
-
-    static
+    @Override
+    public Object formatArgument(final Object argument, final String method)
     {
-        final Map<String, Function<File, Object>> functions = Maps.newHashMap();
-        functions.put("canExecute", new Function<File, Object>()
+        if (argument instanceof File)
         {
-            @Override
-            public Object apply(final File file)
+            final File file = (File) argument;
+            if ("canExecute".equals(method))
             {
                 return file.canExecute();
             }
-        });
-        functions.put("canRead", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("canRead".equals(method))
             {
                 return file.canRead();
             }
-        });
-        functions.put("canWrite", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("canWrite".equals(method))
             {
                 return file.canWrite();
             }
-        });
-        functions.put("content", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("content".equals(method))
             {
                 try
                 {
@@ -73,43 +54,23 @@ public final class FileArgumentFormatter implements ArgumentFormatter
                     return "<null>";
                 }
             }
-        });
-        functions.put("exists", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("exists".equals(method))
             {
                 return file.exists();
             }
-        });
-        functions.put("length", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("length".equals(method))
             {
                 return file.length();
             }
-        });
-        functions.put("uri", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("uri".equals(method))
             {
                 return file.toURI();
             }
-        });
-        functions.put("absolutePath", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("absolutePath".equals(method))
             {
                 return file.getAbsolutePath();
             }
-        });
-        functions.put("canonicalPath", new Function<File, Object>()
-        {
-            @Override
-            public Object apply(final File file)
+            if ("canonicalPath".equals(method))
             {
                 try
                 {
@@ -119,22 +80,6 @@ public final class FileArgumentFormatter implements ArgumentFormatter
                 {
                     return "<null>";
                 }
-            }
-        });
-
-        FUNCTIONS = ImmutableMap.copyOf(functions);
-    }
-
-    @Override
-    public Object formatArgument(final Object argument, final String method)
-    {
-        if (argument instanceof File)
-        {
-            final Function<File, Object> function = FUNCTIONS.get(method);
-            if (function != null)
-            {
-                final File file = (File) argument;
-                return function.apply(file);
             }
         }
 
