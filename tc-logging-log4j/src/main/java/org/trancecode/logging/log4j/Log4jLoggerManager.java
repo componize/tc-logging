@@ -15,14 +15,13 @@
  */
 package org.trancecode.logging.log4j;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.trancecode.base.Preconditions;
 import org.trancecode.logging.spi.DelegateLogger;
 import org.trancecode.logging.spi.LoggerLevel;
 import org.trancecode.logging.spi.LoggerManager;
@@ -36,14 +35,14 @@ public final class Log4jLoggerManager extends LoggerManager
 
     static
     {
-        final Map<LoggerLevel, Level> levels = Maps.newHashMap();
+        final Map<LoggerLevel, Level> levels = new HashMap<LoggerLevel, Level>();
         levels.put(LoggerLevel.TRACE, Level.TRACE);
         levels.put(LoggerLevel.DEBUG, Level.DEBUG);
         levels.put(LoggerLevel.INFO, Level.INFO);
         levels.put(LoggerLevel.WARN, Level.WARN);
         levels.put(LoggerLevel.ERROR, Level.ERROR);
         levels.put(LoggerLevel.FATAL, Level.FATAL);
-        LEVELS = ImmutableMap.copyOf(levels);
+        LEVELS = Collections.unmodifiableMap(levels);
     }
 
     @Override
@@ -72,7 +71,7 @@ public final class Log4jLoggerManager extends LoggerManager
         public DelegateLogger getChild(final String childName)
         {
             Preconditions.checkNotNull(childName);
-            Preconditions.checkArgument(!childName.isEmpty());
+            Preconditions.checkArgument(!childName.isEmpty(), "child logger name is empty");
             final String childFullName = name + "." + childName;
             return new Log4jDelegateLogger(childFullName, Logger.getLogger(childFullName));
         }
