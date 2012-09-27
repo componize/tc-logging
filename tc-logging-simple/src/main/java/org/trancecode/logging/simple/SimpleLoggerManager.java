@@ -15,10 +15,9 @@
  */
 package org.trancecode.logging.simple;
 
-import com.google.common.base.Preconditions;
-
 import java.io.PrintStream;
 
+import org.trancecode.base.Preconditions;
 import org.trancecode.logging.spi.DelegateLogger;
 import org.trancecode.logging.spi.LoggerLevel;
 import org.trancecode.logging.spi.LoggerManager;
