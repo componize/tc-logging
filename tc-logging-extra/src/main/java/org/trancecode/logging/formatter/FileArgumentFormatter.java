@@ -16,9 +16,9 @@
 package org.trancecode.logging.formatter;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
+import java.io.StringWriter;
 
 /**
  * @author Herve Quiroz
@@ -45,14 +45,45 @@ public final class FileArgumentFormatter implements ArgumentFormatter
             }
             if ("content".equals(method))
             {
+                FileReader in = null;
+                final StringWriter out = new StringWriter();
                 try
                 {
-                    return FileUtils.readFileToString(file);
+                    in = new FileReader(file);
+                    final char[] buffer = new char[4096];
+                    int readBytes = 0;
+                    while (-1 != (readBytes = in.read(buffer)))
+                    {
+                        out.write(buffer, 0, readBytes);
+                    }
                 }
                 catch (final IOException e)
                 {
                     return "<null>";
                 }
+                finally
+                {
+                    if (in != null)
+                    {
+                        try
+                        {
+                            in.close();
+                        }
+                        catch (final IOException e)
+                        {
+                            // Ignore
+                        }
+                    }
+                    try
+                    {
+                        out.close();
+                    }
+                    catch (final IOException e)
+                    {
+                        // Ignore
+                    }
+                }
+                return out.toString();
             }
             if ("exists".equals(method))
             {
