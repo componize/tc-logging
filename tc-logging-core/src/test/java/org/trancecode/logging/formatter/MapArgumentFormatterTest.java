@@ -15,8 +15,7 @@
  */
 package org.trancecode.logging.formatter;
 
-import com.google.common.collect.ImmutableMap;
-
+import java.util.HashMap;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -31,14 +30,16 @@ import org.trancecode.logging.spi.Loggers;
 @Test
 public final class MapArgumentFormatterTest
 {
-    private static final Map<Integer, String> MAP = ImmutableMap.of(1, "one", 2, "two", 3, "three");
-
     @Test
     public void formatArgument()
     {
-        Assert.assertEquals(Loggers.formatArgument(MAP, "size").toString(), "3");
-        Assert.assertEquals(Loggers.formatArgument(MAP, "isEmpty").toString(), "false");
-        Assert.assertEquals(Loggers.formatArgument(MAP, "keys").toString(), "[1, 2, 3]");
-        Assert.assertEquals(Loggers.formatArgument(MAP, "values").toString(), "[one, two, three]");
+        final Map<Integer, String> map = new HashMap<Integer, String>();
+        map.put(1, "one");
+        map.put(2, "two");
+        map.put(3, "three");
+        Assert.assertEquals(Loggers.formatArgument(map, "size").toString(), "3");
+        Assert.assertEquals(Loggers.formatArgument(map, "isEmpty").toString(), "false");
+        Assert.assertEquals(Loggers.formatArgument(map, "keys").toString(), "[1, 2, 3]");
+        Assert.assertEquals(Loggers.formatArgument(map, "values").toString(), "[one, two, three]");
     }
 }

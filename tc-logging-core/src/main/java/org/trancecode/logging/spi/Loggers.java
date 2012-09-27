@@ -15,20 +15,13 @@
  */
 package org.trancecode.logging.spi;
 
-import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
+import org.trancecode.base.Preconditions;
 import org.trancecode.base.TcArrays;
 import org.trancecode.logging.formatter.ArgumentFormatter;
 import org.trancecode.logging.macro.MacroRenderer;
@@ -40,21 +33,18 @@ import org.trancecode.logging.macro.MacroRenderer;
  */
 public final class Loggers
 {
-    private static final Iterable<ArgumentFormatter> argumentFormatters = ImmutableList.copyOf(ServiceLoader
-            .load(ArgumentFormatter.class));
+    private static final Iterable<ArgumentFormatter> argumentFormatters = ServiceLoader.load(ArgumentFormatter.class);
     private static final Map<String, MacroRenderer> macroRenderers;
 
     static
     {
-        final Map<String, MacroRenderer> renderers = Maps.newHashMap();
+        macroRenderers = new HashMap<String, MacroRenderer>();
         for (final MacroRenderer renderer : ServiceLoader.load(MacroRenderer.class))
         {
             Preconditions.checkNotNull(renderer.name());
             Preconditions.checkArgument(renderer.name().startsWith("@"), "name = %s", renderer.name());
-            renderers.put(renderer.name(), renderer);
+            macroRenderers.put(renderer.name(), renderer);
         }
-
-        macroRenderers = ImmutableMap.copyOf(renderers);
     }
 
     private Loggers()
@@ -207,25 +197,16 @@ public final class Loggers
             return argument;
         }
 
-        final Iterable<Object> formattedArguments = Iterables.transform(argumentFormatters,
-                new Function<ArgumentFormatter, Object>()
-                {
-                    @Override
-                    public Object apply(final ArgumentFormatter argumentFormatter)
-                    {
-                        return argumentFormatter.formatArgument(argument, method);
-                    }
-                });
-
-        try
+        for (final ArgumentFormatter argumentFormatter : argumentFormatters)
         {
-            return Iterables.find(formattedArguments, Predicates.notNull());
+            final Object formattedArgument = argumentFormatter.formatArgument(argument, method);
+            if (formattedArgument != null)
+            {
+                return formattedArgument;
+            }
         }
-        catch (final NoSuchElementException e)
-        {
-            throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method
-                    + "\nformatters = " + argumentFormatters, e);
-        }
+        throw new UnsupportedOperationException("class = " + argument.getClass() + " ; method = " + method
+                + "\nformatters = " + argumentFormatters);
     }
 
     /**

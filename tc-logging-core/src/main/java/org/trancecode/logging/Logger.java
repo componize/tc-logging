@@ -15,11 +15,11 @@
  */
 package org.trancecode.logging;
 
+import org.trancecode.base.Preconditions;
 import org.trancecode.logging.spi.DelegateLogger;
 import org.trancecode.logging.spi.LoggerLevel;
 import org.trancecode.logging.spi.LoggerManager;
 import org.trancecode.logging.spi.Loggers;
-import com.google.common.base.Preconditions;
 
 /**
  * The main logger facade class.

@@ -15,7 +15,8 @@
  */
 package org.trancecode.logging.formatter;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Arrays;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.trancecode.logging.spi.Loggers;
@@ -31,8 +32,8 @@ public final class CollectionArgumentFormatterTest
     @Test
     public void formatArgument()
     {
-        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "size").toString(), "3");
-        Assert.assertEquals(Loggers.formatArgument(ImmutableList.of(1, 2, 3), "isEmpty").toString(), "false");
+        Assert.assertEquals(Loggers.formatArgument(Arrays.asList(1, 2, 3), "size").toString(), "3");
+        Assert.assertEquals(Loggers.formatArgument(Arrays.asList(1, 2, 3), "isEmpty").toString(), "false");
         Assert.assertEquals(Loggers.formatArgument(new Object[] { 1, 2, 3 }, "length").toString(), "3");
     }
 }

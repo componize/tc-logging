@@ -15,8 +15,7 @@
  */
 package org.trancecode.logging.spi;
 
-import com.google.common.collect.ImmutableList;
-
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.testng.Assert;
@@ -43,14 +42,15 @@ public final class LoggersTest
         Assert.assertEquals(Loggers.formatMessage("a {} c {}", "b", 'd').toString(), "a b c d");
         Assert.assertEquals(Loggers.formatMessage("1 {} 3", 2).toString(), "1 2 3");
         Assert.assertEquals(Loggers.formatMessage("null {}", (Object) null).toString(), "null null");
-        Assert.assertEquals(Loggers.formatMessage("list {}", ImmutableList.of("a", "b")).toString(), "list [a, b]");
+        Assert.assertEquals(Loggers.formatMessage("list {}", Arrays.asList("a", "b")).toString(), "list [a, b]");
         Assert.assertEquals(Loggers.formatMessage("arrays {} {}", new String[] { "a", "b" }, new String[] { "c", "d" })
                 .toString(), "arrays [a, b] [c, d]");
         Assert.assertEquals(Loggers
                 .formatMessage("arrays {} {}", new String[] { "a", "b" }, new String[] { "c", null }).toString(),
                 "arrays [a, b] [c, null]");
-        Assert.assertEquals(Loggers.formatMessage("arrays {} {}", new String[] { "a", "b" },
-                new Object[] { "c", new String[] { "d", "e" } }).toString(), "arrays [a, b] [c, [d, e]]");
+        Assert.assertEquals(
+                Loggers.formatMessage("arrays {} {}", new String[] { "a", "b" },
+                        new Object[] { "c", new String[] { "d", "e" } }).toString(), "arrays [a, b] [c, [d, e]]");
 
         // Escape characters
         Assert.assertEquals(Loggers.formatMessage("a \\{} c", "b").toString(), "a {} c");
@@ -104,7 +104,7 @@ public final class LoggersTest
     @Test
     public void performanceForCollectionSize()
     {
-        final Collection<String> collection = ImmutableList.of("a", "b", "c");
+        final Collection<String> collection = Arrays.asList("a", "b", "c");
         for (int i = 0; i < MANY_TIMES; i++)
         {
             Loggers.formatMessage(" {size} ", collection);

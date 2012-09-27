@@ -15,9 +15,9 @@
  */
 package org.trancecode.logging.util;
 
-import com.google.common.base.Preconditions;
-
 import java.util.concurrent.TimeUnit;
+
+import org.trancecode.base.Preconditions;
 
 /**
  * @author Herve Quiroz

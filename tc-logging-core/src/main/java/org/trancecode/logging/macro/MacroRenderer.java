@@ -15,12 +15,11 @@
  */
 package org.trancecode.logging.macro;
 
-import com.google.common.base.Supplier;
 
 /**
  * @author Herve Quiroz
  */
-public interface MacroRenderer extends Supplier<Object>
+public interface MacroRenderer
 {
     String name();
 
