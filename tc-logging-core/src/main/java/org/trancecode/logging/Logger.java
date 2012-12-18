@@ -165,4 +165,42 @@ public final class Logger
     {
         log(LoggerLevel.FATAL, message, args);
     }
+
+    /**
+     * Sends a {@link LoggerLevel#TRACE}-level log event describing the
+     * invocation of the current method.
+     * <p>
+     * This is a somewhat simplified and standardized construct to trace method
+     * calls and passed parameters.
+     * 
+     * @see #methodReturned(Object)
+     */
+    public void methodInvoked(final Object... parameters)
+    {
+        trace("{@method} <- {}", new Object[] { parameters });
+    }
+
+    /**
+     * Sends a {@link LoggerLevel#TRACE}-level log event describing the return
+     * value of the current method.
+     * <p>
+     * This is a somewhat simplified and standardized construct to trace method
+     * calls and return values.
+     * <p>
+     * Example use:
+     * 
+     * <pre>
+     * public String doSomething(int param1, boolean param2)
+     * {
+     *   LOG.methodInvoked(param1, param2);
+     *   String result = ...
+     *   return LOG.methodReturned(result);
+     * }
+     * </pre>
+     */
+    public <T> T methodReturned(final T value)
+    {
+        trace("{@method} -> {}", value);
+        return value;
+    }
 }

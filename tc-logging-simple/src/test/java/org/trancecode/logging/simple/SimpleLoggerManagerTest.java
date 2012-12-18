@@ -75,4 +75,25 @@ public final class SimpleLoggerManagerTest
         Thread.sleep(10);
         logger.info("{}", seconds);
     }
+
+    public static int someMethod1(final String someStringParameter, final boolean someBooleanParameter)
+    {
+        final Logger logger = Logger.getLogger(SimpleLoggerManagerTest.class);
+        logger.methodInvoked(someStringParameter, someBooleanParameter);
+        return logger.methodReturned(123);
+    }
+
+    public static CharSequence someMethod2(final int someIntParameter)
+    {
+        final Logger logger = Logger.getLogger(SimpleLoggerManagerTest.class);
+        logger.methodInvoked(someIntParameter);
+        return logger.methodReturned("abc");
+    }
+
+    @Test
+    public void methodTraces()
+    {
+        someMethod1("abc", true);
+        someMethod2(123);
+    }
 }
