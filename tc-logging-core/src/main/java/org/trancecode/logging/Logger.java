@@ -46,6 +46,34 @@ public final class Logger
         return new Logger(LoggerManager.getLoggerManager().getDelegateLogger(name));
     }
 
+    /**
+     * Returns a logger for the class from which this method is invoked.
+     * <p>
+     * Thus the following statement:
+     * 
+     * <pre>
+     * public class MyClass
+     * {
+     *     public static final Logger LOG = Logger.getLogger();
+     * }
+     * </pre>
+     * 
+     * Will have the same effect as:
+     * 
+     * <pre>
+     * public class MyClass
+     * {
+     *     public static final Logger LOG = Logger.getLogger(MyClass.class);
+     * }
+     * </pre>
+     */
+    public static Logger getLogger()
+    {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        final String invokingClassName = stackTrace[2].getClassName();
+        return getLogger(invokingClassName);
+    }
+
     private Logger(final DelegateLogger delegateLogger)
     {
         this.delegateLogger = Preconditions.checkNotNull(delegateLogger);

@@ -31,6 +31,8 @@ import org.trancecode.logging.util.Duration;
 @Test
 public final class SimpleLoggerManagerTest
 {
+    public static final Logger STATIC_LOGGER = Logger.getLogger();
+
     @Test
     public void getLoggerManager()
     {
@@ -95,5 +97,11 @@ public final class SimpleLoggerManagerTest
     {
         someMethod1("abc", true);
         someMethod2(123);
+    }
+
+    @Test
+    public void staticLoggerName()
+    {
+        Assert.assertEquals(STATIC_LOGGER.name(), SimpleLoggerManagerTest.class.getName());
     }
 }
