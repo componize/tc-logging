@@ -15,7 +15,9 @@
  */
 package org.trancecode.logging.log4j;
 
+import org.apache.log4j.BasicConfigurator;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.trancecode.logging.Logger;
 import org.trancecode.logging.spi.LoggerManager;
@@ -28,6 +30,12 @@ import org.trancecode.logging.spi.LoggerManager;
 @Test
 public final class Log4jLoggerManagerTest
 {
+    @BeforeClass
+    public static void initialize()
+    {
+        BasicConfigurator.configure();
+    }
+
     @Test
     public void getLoggerManager()
     {
