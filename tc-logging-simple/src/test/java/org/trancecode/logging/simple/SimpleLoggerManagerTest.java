@@ -104,4 +104,11 @@ public final class SimpleLoggerManagerTest
     {
         Assert.assertEquals(STATIC_LOGGER.name(), SimpleLoggerManagerTest.class.getName());
     }
+
+    @Test
+    public void multiline()
+    {
+        final Logger logger = Logger.getLogger(SimpleLoggerManagerTest.class);
+        logger.info("one\n two\n  three");
+    }
 }
