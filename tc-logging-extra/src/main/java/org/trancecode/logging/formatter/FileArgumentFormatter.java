@@ -73,7 +73,7 @@ public final class FileArgumentFormatter implements ArgumentFormatter
                         }
                         catch (final IOException e)
                         {
-                            // Ignore
+                            e.printStackTrace();
                         }
                     }
                     try
@@ -82,7 +82,7 @@ public final class FileArgumentFormatter implements ArgumentFormatter
                     }
                     catch (final IOException e)
                     {
-                        // Ignore
+                        e.printStackTrace();
                     }
                 }
                 return out.toString();
