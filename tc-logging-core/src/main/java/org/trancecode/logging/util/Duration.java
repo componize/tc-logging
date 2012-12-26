@@ -24,6 +24,11 @@ import org.trancecode.base.Preconditions;
  */
 public final class Duration
 {
+    private Duration()
+    {
+        // No instantiation
+    }
+
     public static Object of(final TimeUnit unit)
     {
         Preconditions.checkNotNull(unit);
