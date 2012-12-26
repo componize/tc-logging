@@ -18,7 +18,22 @@ package org.trancecode.logging.spi;
 /**
  * @author Herve Quiroz
  */
-public enum LoggerLevel
-{
-    TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+public enum LoggerLevel {
+    TRACE, DEBUG, INFO, WARN, ERROR, FATAL;
+
+    public String toRightPaddedString(final int length, final String padding)
+    {
+        return toRightPaddedString(toString(), length, padding);
+    }
+
+    private static String toRightPaddedString(final String string, final int length, final String padding)
+    {
+        assert !padding.isEmpty();
+        if (string.length() < length)
+        {
+            return toRightPaddedString(string + padding, length, padding);
+        }
+
+        return string;
+    }
 }
