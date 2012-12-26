@@ -16,9 +16,11 @@
 package org.trancecode.logging.formatter;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 
 /**
  * @author Herve Quiroz
@@ -45,16 +47,16 @@ public final class FileArgumentFormatter implements ArgumentFormatter
             }
             if ("content".equals(method))
             {
-                FileReader in = null;
+                InputStream in = null;
                 final StringWriter out = new StringWriter();
                 try
                 {
-                    in = new FileReader(file);
-                    final char[] buffer = new char[4096];
+                    in = new FileInputStream(file);
+                    final byte[] buffer = new byte[4096];
                     int readBytes = 0;
                     while (-1 != (readBytes = in.read(buffer)))
                     {
-                        out.write(buffer, 0, readBytes);
+                        out.write(new String(buffer, 0, readBytes, Charset.defaultCharset()));
                     }
                 }
                 catch (final IOException e)
