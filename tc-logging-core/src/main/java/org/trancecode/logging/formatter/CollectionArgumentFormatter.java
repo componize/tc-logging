@@ -22,7 +22,6 @@ import java.util.Collection;
  */
 public final class CollectionArgumentFormatter implements ArgumentFormatter
 {
-
     @Override
     public Object formatArgument(final Object argument, final String method)
     {
@@ -42,5 +41,4 @@ public final class CollectionArgumentFormatter implements ArgumentFormatter
 
         return null;
     }
-
 }

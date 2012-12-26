@@ -23,7 +23,6 @@ import java.io.StringWriter;
  */
 public final class ExceptionArgumentFormatter implements ArgumentFormatter
 {
-
     @Override
     public Object formatArgument(final Object argument, final String method)
     {
@@ -53,5 +52,4 @@ public final class ExceptionArgumentFormatter implements ArgumentFormatter
 
         return null;
     }
-
 }

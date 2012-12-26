@@ -20,7 +20,6 @@ package org.trancecode.logging.formatter;
  */
 public final class ClassArgumentFormatter implements ArgumentFormatter
 {
-
     @Override
     public Object formatArgument(final Object argument, final String method)
     {
@@ -46,5 +45,4 @@ public final class ClassArgumentFormatter implements ArgumentFormatter
 
         return null;
     }
-
 }

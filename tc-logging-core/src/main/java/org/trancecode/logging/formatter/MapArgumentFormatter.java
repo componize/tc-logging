@@ -22,7 +22,6 @@ import java.util.Map;
  */
 public final class MapArgumentFormatter implements ArgumentFormatter
 {
-
     @Override
     public Object formatArgument(final Object argument, final String method)
     {
@@ -52,5 +51,4 @@ public final class MapArgumentFormatter implements ArgumentFormatter
 
         return null;
     }
-
 }
