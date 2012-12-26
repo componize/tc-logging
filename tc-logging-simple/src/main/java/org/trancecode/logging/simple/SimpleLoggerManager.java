@@ -19,7 +19,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.management.ManagementFactory;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.StringTokenizer;
@@ -141,11 +143,18 @@ public final class SimpleLoggerManager extends LoggerManager
             assert !newLogFile.exists() : newLogFile;
             try
             {
-                fileDestination = new PrintStream(new FileOutputStream(newLogFile, true));
+                fileDestination = new PrintStream(new FileOutputStream(newLogFile, true), true, Charset
+                        .defaultCharset().name());
             }
             catch (final FileNotFoundException e)
             {
-                throw new IllegalStateException("cannot write to new log file: " + newLogFile, e);
+                // Throw an Error here because this is fatal anyway
+                throw new Error(e);
+            }
+            catch (final UnsupportedEncodingException e)
+            {
+                // TODO Auto-generated catch block
+                throw new IllegalStateException(e);
             }
             currentFileDayOfTheWeek = dayOfTheWeek;
         }
