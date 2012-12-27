@@ -12,13 +12,10 @@
 
   <artifactId>tc-logging-extra</artifactId>
   <packaging>jar</packaging>
-  <name>${project.artifactId}</name>
 
   <description>
     Additional  argument formatters and marco renderers
   </description>
-
-  <!-- ===================================================================== -->
 
   <dependencies>
 
@@ -34,20 +31,5 @@
     </dependency>
 
   </dependencies>
-
-  <!-- ===================================================================== -->
-
-  <build>
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-
-    </plugins>
-  </build>
-
-  <!-- ===================================================================== -->
 
 </project>
