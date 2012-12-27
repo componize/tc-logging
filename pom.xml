@@ -163,7 +163,7 @@
           <configuration>
             <compilerArguments>
               <Xlint:all />
-              <Werror />
+              <!-- FIXME <Werror /> -->
             </compilerArguments>
             <source>1.6</source>
             <target>1.6</target>
