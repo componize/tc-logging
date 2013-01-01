@@ -161,9 +161,12 @@ public final class SimpleLoggerManager extends LoggerManager
 
     public static void setLogFileNamePrefix(final String logFileNamePrefix)
     {
-        SimpleLoggerManager.logFileNamePrefix = logFileNamePrefix;
-        // Reset the current log file in case it was already setup
-        fileDestination = null;
+        if (!SimpleLoggerManager.logFileNamePrefix.equals(logFileNamePrefix))
+        {
+            SimpleLoggerManager.logFileNamePrefix = logFileNamePrefix;
+            // Reset the current log file in case it was already setup
+            fileDestination = null;
+        }
     }
 
     public static void setOutputDirectory(final File outputDirectory)
