@@ -46,8 +46,6 @@ public final class SimpleLoggerManager extends LoggerManager
 
     private static final String LINE_DELIMITER = "::";
 
-    private static final File OUTPUT_DIRECTORY;
-    private static final LoggerLevel LEVEL;
     private static final ExecutorService OUTPUT_EXECUTOR = Executors.newSingleThreadExecutor(new ThreadFactory()
     {
         @Override
@@ -62,6 +60,8 @@ public final class SimpleLoggerManager extends LoggerManager
 
     private static String logFileNamePrefix = ManagementFactory.getRuntimeMXBean().getName();
     private static PrintStream consoleDestination = System.err;
+    private static LoggerLevel level;
+    private static File outputDirectory;
 
     private static PrintStream fileDestination = null;
     private static int currentFileDayOfTheWeek = 0;
@@ -73,27 +73,15 @@ public final class SimpleLoggerManager extends LoggerManager
                 System.getProperty("java.io.tmpdir"));
         if (outputDirectoryPath.equals(DISABLE_OUTPUT_DIRECTORY))
         {
-            OUTPUT_DIRECTORY = null;
+            setOutputDirectory(null);
         }
         else
         {
-            OUTPUT_DIRECTORY = new File(outputDirectoryPath).getAbsoluteFile();
-            if (!OUTPUT_DIRECTORY.exists() && !OUTPUT_DIRECTORY.mkdirs())
-            {
-                throw new IllegalStateException("Cannot create directory: " + OUTPUT_DIRECTORY);
-            }
-            if (!OUTPUT_DIRECTORY.isDirectory())
-            {
-                throw new IllegalStateException("Not a directory: " + OUTPUT_DIRECTORY);
-            }
-            if (!OUTPUT_DIRECTORY.canWrite())
-            {
-                throw new IllegalStateException("Cannot write to directory: " + OUTPUT_DIRECTORY);
-            }
+            setOutputDirectory(new File(outputDirectoryPath).getAbsoluteFile());
         }
 
         final String levelName = System.getProperty(PROPERTY_LEVEL, LoggerLevel.INFO.name());
-        LEVEL = LoggerLevel.valueOf(levelName);
+        setLevel(LoggerLevel.valueOf(levelName));
 
         Runtime.getRuntime().addShutdownHook(new Thread()
         {
@@ -115,7 +103,7 @@ public final class SimpleLoggerManager extends LoggerManager
 
     private static File getNewLogFile(final String fileNamePrefix)
     {
-        final File newLogFile = new File(OUTPUT_DIRECTORY, fileNamePrefix + "."
+        final File newLogFile = new File(outputDirectory, fileNamePrefix + "."
                 + Longs.toHexString(System.currentTimeMillis()) + ".log").getAbsoluteFile();
         if (!newLogFile.exists())
         {
@@ -161,6 +149,11 @@ public final class SimpleLoggerManager extends LoggerManager
         return fileDestination;
     }
 
+    public static void setLevel(final LoggerLevel level)
+    {
+        SimpleLoggerManager.level = level;
+    }
+
     public static void setDestination(final PrintStream destination)
     {
         SimpleLoggerManager.consoleDestination = Preconditions.checkNotNull(destination);
@@ -171,6 +164,35 @@ public final class SimpleLoggerManager extends LoggerManager
         SimpleLoggerManager.logFileNamePrefix = logFileNamePrefix;
         // Reset the current log file in case it was already setup
         fileDestination = null;
+    }
+
+    public static void setOutputDirectory(final File outputDirectory)
+    {
+        if (SimpleLoggerManager.outputDirectory == null || !SimpleLoggerManager.outputDirectory.equals(outputDirectory))
+        {
+            if (outputDirectory != null)
+            {
+                if (!outputDirectory.isAbsolute())
+                {
+                    setOutputDirectory(outputDirectory.getAbsoluteFile());
+                }
+                if (!outputDirectory.exists() && !outputDirectory.mkdirs())
+                {
+                    throw new IllegalStateException("Cannot create directory: " + outputDirectory);
+                }
+                if (!outputDirectory.isDirectory())
+                {
+                    throw new IllegalStateException("Not a directory: " + outputDirectory);
+                }
+                if (!outputDirectory.canWrite())
+                {
+                    throw new IllegalStateException("Cannot write to directory: " + outputDirectory);
+                }
+            }
+
+            SimpleLoggerManager.outputDirectory = outputDirectory;
+            fileDestination = null;
+        }
     }
 
     private static long nextEventId()
@@ -185,7 +207,7 @@ public final class SimpleLoggerManager extends LoggerManager
     private static void log(final String loggerName, final LoggerLevel level, final Object message)
     {
         final long time = System.currentTimeMillis();
-        if (OUTPUT_DIRECTORY != null)
+        if (outputDirectory != null)
         {
             OUTPUT_EXECUTOR.execute(new Runnable()
             {
@@ -235,7 +257,7 @@ public final class SimpleLoggerManager extends LoggerManager
             @Override
             public boolean isLevelEnabled(final LoggerLevel level)
             {
-                return level.compareTo(LEVEL) >= 0;
+                return level.compareTo(SimpleLoggerManager.level) >= 0;
             }
 
             @Override
