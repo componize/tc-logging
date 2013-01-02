@@ -61,7 +61,7 @@ public final class SimpleLoggerManager extends LoggerManager
     private static String logFileNamePrefix = ManagementFactory.getRuntimeMXBean().getName();
     private static PrintStream consoleDestination = System.err;
     private static LoggerLevel level;
-    private static File outputDirectory;
+    private static volatile File outputDirectory;
 
     private static PrintStream fileDestination = null;
     private static int currentFileDayOfTheWeek = 0;
