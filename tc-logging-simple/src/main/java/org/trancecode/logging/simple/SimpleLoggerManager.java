@@ -89,13 +89,16 @@ public final class SimpleLoggerManager extends LoggerManager
             public void run()
             {
                 OUTPUT_EXECUTOR.shutdown();
-                try
+                if (fileDestination != null)
                 {
-                    fileDestination.close();
-                }
-                catch (final Throwable t)
-                {
-                    t.printStackTrace(consoleDestination);
+                    try
+                    {
+                        fileDestination.close();
+                    }
+                    catch (final Throwable t)
+                    {
+                        t.printStackTrace(consoleDestination);
+                    }
                 }
             }
         });
